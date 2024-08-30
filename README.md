@@ -714,6 +714,61 @@ System metricts are ingested by Prometheus and gathered by Node_exporter and vis
 Jenkins metrics:
 ![alt text](assets/jenkins_metrics.png)
 
+**Phase 5: Notification**
 
+1. **Email**
+ -  Use email with domain gmail.com and enable 2FA for it.
+2. **Set up Email Notfiacations in Jenkins**
+ - Add credentials for your email in:
+    Dashboard -> Manage Jenkins -> Credentials -> System -> Global credentials (unrestricted)
+    Choose Username and Password kind
+
+    Then set up system in Jenkins
+
+    Dashboard -> Manage Jenkins -> System -> Email Notification Section
+    ![alt text](assets/email_config_1.png)
+    ![alt text](assets/email_config_2.png)
+
+    Receive test email:
+    ![alt text](assets/test_email.png)
+
+    Then go to Dashboard -> Manage Jenkins -> System -> Extended Email Notification Section
+
+    ![alt text](assets/extended_email.png)
+
+    Use HTML Content Type and Triggers: Always and Failure-Any
+
+    Add to the pipeline:
+
+    ```groovy
+    post {
+     always {
+        emailext attachLog: true,
+            subject: "'${currentBuild.result}'",
+            body: "Project: ${env.JOB_NAME}<br/>" +
+                "Build Number: ${env.BUILD_NUMBER}<br/>" +
+                "URL: ${env.BUILD_URL}<br/>",
+            to: '<youremailid>',                                #change mail here
+            attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+        }
+    }
+    ```
+
+    Run Failed Pipeline Scenario (port already allocated):
+
+    Failed job in Jenkins pipeline is visualized in Grafana:
+    ![alt text](assets/failed_pipe.png)
+
+    Failed pipeline:
+    ![alt text](assets/failed_pipeline.png)
+
+    Incoming email notification about pipeline failure:
+    ![alt text](assets/email_fail.png)
+
+    Succes email:
+    ![alt text](assets/success_email.png)
+
+    Grafana dashboard - success pipeline:
+    ![alt text](assets/pipeline_success.png)
 
     
