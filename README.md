@@ -1,6 +1,10 @@
 # DevSecOps pipeline for the Netflix clone
 ![alt text](assets/project_arch.png)
 
+## A Special Thank You
+
+I would like to extend my heartfelt thanks to **CloudChamp** for providing this project and for consistently delivering amazing content that inspires and educates the community.  For more insightful tutorials and projects, be sure to check out this [project video](https://youtu.be/g8X5AoqCJHc?si=-Rxs_9KhYJbv6jRz). Thank you, CloudChamp, for your invaluable contribution to the DevSecOps community!
+
 ## Problems This Project Solves
 
 This project addresses several key challenges faced in modern software development and deployment:
@@ -800,21 +804,17 @@ To deploy an application with ArgoCD, you can follow these steps, which I'll out
 1. **Install ArgoCD:**
 
    You can install ArgoCD on your Kubernetes cluster by following the instructions provided in the [EKS Workshop](https://archive.eksworkshop.com/intermediate/290_argocd/install/) documentation.
-
-   Or use this command:
-   ```bash
-   kubectl create namespace argocd
-   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.7/manifests/install.yaml
+   ctl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.7/manifests/install.yaml
    ```
 
-2. **Set Your GitHub Repository as a Source:**
+1. **Set Your GitHub Repository as a Source:**
 
    After installing ArgoCD, you need to set up your GitHub repository as a source for your application deployment. This typically involves configuring the connection to your repository and defining the source for your ArgoCD application. The specific steps will depend on your setup and requirements.
 
    Connect GitHub Repository:
    ![alt text](assets/github_connect.png)
 
-3. **Create an ArgoCD Application:**
+2. **Create an ArgoCD Application:**
    - `name`: Set the name for your application.
    - `destination`: Define the destination where your application should be deployed.
    - `project`: Specify the project the application belongs to.
