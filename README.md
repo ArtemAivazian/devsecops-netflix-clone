@@ -3,7 +3,7 @@
 
 ## A Special Thank You
 
-I would like to extend my heartfelt thanks to **CloudChamp** for providing this project and for consistently delivering amazing content that inspires and educates the community.  For more insightful tutorials and projects, be sure to check out this [project video](https://youtu.be/g8X5AoqCJHc?si=-Rxs_9KhYJbv6jRz). Thank you, CloudChamp, for your invaluable contribution to the DevSecOps community!
+I would like to extend my heartfelt thanks to **Nasiullha Chaudhari** (CloudChamp) for providing this project and for consistently delivering amazing content that inspires and educates the community.  For more insightful tutorials and projects, be sure to check out this [project video](https://youtu.be/g8X5AoqCJHc?si=-Rxs_9KhYJbv6jRz). Thank you, CloudChamp, for your invaluable contribution to the DevSecOps community!
 
 ## Problems This Project Solves
 
