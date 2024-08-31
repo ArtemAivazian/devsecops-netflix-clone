@@ -73,7 +73,7 @@ This project provides hands-on experience with deploying a scalable, secure, and
 
 It will show an error cause you need API key:
 
-![alt text](<assets/Screenshot 2024-08-30 at 14.13.20.png>)
+![alt text](<assets/no_pass_api_key.png>)
 
 **Step 4: Get the API Key:**
 
@@ -596,7 +596,7 @@ And if image has been pushed to the DockerHub:
    `http://<your-prometheus-ip>:9090/targets`
 
 
-####Grafana
+#### Grafana
 
 **Install Grafana on Ubuntu 22.04 and Set it up to Work with Prometheus**
 
@@ -804,17 +804,15 @@ To deploy an application with ArgoCD, you can follow these steps, which I'll out
 1. **Install ArgoCD:**
 
    You can install ArgoCD on your Kubernetes cluster by following the instructions provided in the [EKS Workshop](https://archive.eksworkshop.com/intermediate/290_argocd/install/) documentation.
-   ctl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.7/manifests/install.yaml
-   ```
 
-1. **Set Your GitHub Repository as a Source:**
+2. **Set Your GitHub Repository as a Source:**
 
    After installing ArgoCD, you need to set up your GitHub repository as a source for your application deployment. This typically involves configuring the connection to your repository and defining the source for your ArgoCD application. The specific steps will depend on your setup and requirements.
 
    Connect GitHub Repository:
    ![alt text](assets/github_connect.png)
 
-2. **Create an ArgoCD Application:**
+3. **Create an ArgoCD Application:**
    - `name`: Set the name for your application.
    - `destination`: Define the destination where your application should be deployed.
    - `project`: Specify the project the application belongs to.
