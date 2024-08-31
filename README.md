@@ -772,3 +772,117 @@ Jenkins metrics:
     ![alt text](assets/pipeline_success.png)
 
     
+
+# Phase 6: Kubernetes
+
+## Create Kubernetes Cluster with Nodegroups
+
+In this phase, you'll set up a Kubernetes cluster with node groups. This will provide a scalable environment to deploy and manage your applications.
+
+## Monitor Kubernetes with Prometheus
+
+Prometheus is a powerful monitoring and alerting toolkit, and you'll use it to monitor your Kubernetes cluster. Additionally, you'll install the node exporter using Helm to collect metrics from your cluster nodes.
+### EKS Cluster
+
+1. Launch EKS Cluster
+![alt text](assets/launch_cluster.png)
+
+2. Create Node Group
+![alt text](assets/node_group.png)
+
+On your local machine set eks cluster context to use your particular cluster:
+![alt text](assets/set_context.png)
+
+To deploy an application with ArgoCD, you can follow these steps, which I'll outline in Markdown format:
+
+### Deploy Application with ArgoCD
+
+1. **Install ArgoCD:**
+
+   You can install ArgoCD on your Kubernetes cluster by following the instructions provided in the [EKS Workshop](https://archive.eksworkshop.com/intermediate/290_argocd/install/) documentation.
+
+   Or use this command:
+   ```bash
+   kubectl create namespace argocd
+   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.4.7/manifests/install.yaml
+   ```
+
+2. **Set Your GitHub Repository as a Source:**
+
+   After installing ArgoCD, you need to set up your GitHub repository as a source for your application deployment. This typically involves configuring the connection to your repository and defining the source for your ArgoCD application. The specific steps will depend on your setup and requirements.
+
+   Connect GitHub Repository:
+   ![alt text](assets/github_connect.png)
+
+3. **Create an ArgoCD Application:**
+   - `name`: Set the name for your application.
+   - `destination`: Define the destination where your application should be deployed.
+   - `project`: Specify the project the application belongs to.
+   - `source`: Set the source of your application, including the GitHub repository URL, revision, and the path to the application within the repository.
+   - `syncPolicy`: Configure the sync policy, including automatic syncing, pruning, and self-healing.
+  
+  ArgoCD Application:
+  ![alt text](assets/argocd_app_1.png)
+  ![alt text](assets/argocd_app_2.png)
+  ![alt text](assets/argocd_app_3.png)
+
+4. **Access your Application**
+   - To Access the app make sure port 30007 is open in your security group and then open a new tab paste your NodeIP:30007, your app should be running.
+
+Application running on k8s:
+![alt text](assets/app_on_k8s.png)
+
+### Install Node Exporter using Helm
+
+To begin monitoring your Kubernetes cluster, you'll install the Prometheus Node Exporter. This component allows you to collect system-level metrics from your cluster nodes. Here are the steps to install the Node Exporter using Helm:
+
+1. Add the Prometheus Community Helm repository:
+
+    ```bash
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+    ```
+
+2. Create a Kubernetes namespace for the Node Exporter:
+
+    ```bash
+    kubectl create namespace prometheus-node-exporter
+    ```
+
+3. Install the Node Exporter using Helm:
+
+    ```bash
+    helm install prometheus-node-exporter prometheus-community/prometheus-node-exporter --namespace prometheus-node-exporter
+    ```
+
+Add a Job to Scrape Metrics on nodeip:9100/metrics in prometheus.yml:
+
+Update your Prometheus configuration (prometheus.yml) to add a new job for scraping metrics from nodeip:9100/metrics. You can do this by adding the following configuration to your prometheus.yml file:
+
+
+```
+  - job_name: 'Netflix'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['node1Ip:9100']
+```
+prometheus.yml:
+
+![alt text](assets/add_job_name_for_k8s.png)
+
+Check conf:
+```bash
+  promtool check config /etc/prometheus/prometheus.yml
+```
+
+Reload the Prometheus configuration without restarting:
+```bash
+curl -X POST http://localhost:9090/-/reload
+```
+
+Replace 'your-job-name' with a descriptive name for your job. The static_configs section specifies the targets to scrape metrics from, and in this case, it's set to nodeip:9001.
+
+
+**Phase 7: Cleanup**
+
+1. **Cleanup AWS EC2 Instances:**
+    - Terminate AWS EC2 instances that are no longer needed.
